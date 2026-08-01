@@ -1,0 +1,30 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  skill:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate repository
+        run: python scripts/validate_repository.py
+
+      - name: Compile helper scripts
+        run: python -m py_compile scripts/fetch_apple_hig.py scripts/validate_repository.py
+
+      - name: Check fetch helper CLI
+        run: python scripts/fetch_apple_hig.py --help
