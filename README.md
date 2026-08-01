@@ -1,6 +1,7 @@
 <div align="center">
-  <img src="assets/mark.svg" width="112" alt="Apple HIG Design Studio mark">
-  <h1>Apple HIG Design Studio</h1>
+  <img src="assets/mark.svg" width="112" alt="Apple HIG Design Skill mark">
+  <h1>Apple HIG Design Skill</h1>
+  <p><code>design-with-apple-hig</code></p>
   <p>An evidence-first Codex skill for designing, implementing, reviewing, and auditing Apple-platform interfaces.</p>
 
   [![Validate](https://github.com/Sunwood-ai-labs/design-with-apple-hig/actions/workflows/validate.yml/badge.svg)](https://github.com/Sunwood-ai-labs/design-with-apple-hig/actions/workflows/validate.yml)

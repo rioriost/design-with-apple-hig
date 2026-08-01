@@ -1,4 +1,4 @@
 interface:
-  display_name: "Apple HIG Design Studio"
+  display_name: "Apple HIG Design Skill"
   short_description: "Current Apple HIG design, implementation, and evidence audits"
   default_prompt: "Use $design-with-apple-hig to design or review this interface using current Apple primary guidance and an evidence-backed verification loop."

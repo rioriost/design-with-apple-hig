@@ -3,7 +3,7 @@ name: design-with-apple-hig
 description: Apply and verify current Apple Human Interface Guidelines for design, implementation, review, scoring, refactoring, and audit. Use for iOS, iPadOS, macOS, watchOS, tvOS, visionOS, SwiftUI, UIKit, AppKit, Liquid Glass, SF Symbols, Dynamic Type, VoiceOver, accessibility, screenshots, prototypes, or Apple-inspired Web and cross-platform interfaces. Retrieve current Apple primary guidance, preserve Apple wording strength and platform scope, route only necessary specialist skills, separate official requirements from SDK facts, standards, observations, audit-tool signals, and heuristics, and re-verify implemented changes.
 ---
 
-# Apple HIG Design Studio
+# Apple HIG Design Skill
 
 Direct Apple-platform design work from current primary evidence. Use third-party skills as bounded specialists, never as the authority. Preserve the difference between Apple-native alignment and Apple-inspired design on other platforms.
 

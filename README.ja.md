@@ -1,6 +1,7 @@
 <div align="center">
-  <img src="assets/mark.svg" width="112" alt="Apple HIG Design Studio マーク">
-  <h1>Apple HIG Design Studio</h1>
+  <img src="assets/mark.svg" width="112" alt="Apple HIG Design Skill マーク">
+  <h1>Apple HIG Design Skill</h1>
+  <p><code>design-with-apple-hig</code></p>
   <p>Appleプラットフォームの設計・実装・レビュー・監査を、一次情報から進めるCodexスキルです。</p>
 
   [![Validate](https://github.com/Sunwood-ai-labs/design-with-apple-hig/actions/workflows/validate.yml/badge.svg)](https://github.com/Sunwood-ai-labs/design-with-apple-hig/actions/workflows/validate.yml)
