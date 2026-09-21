@@ -4,11 +4,13 @@
   <p><code>design-with-apple-hig</code></p>
   <p>An evidence-first Codex skill for designing, implementing, reviewing, and auditing Apple-platform interfaces.</p>
 
-  [![Validate](https://github.com/Sunwood-ai-labs/design-with-apple-hig/actions/workflows/validate.yml/badge.svg)](https://github.com/Sunwood-ai-labs/design-with-apple-hig/actions/workflows/validate.yml)
+  [![Validate](https://github.com/rioriost/design-with-apple-hig/actions/workflows/validate.yml/badge.svg)](https://github.com/rioriost/design-with-apple-hig/actions/workflows/validate.yml)
   [![License: MIT](https://img.shields.io/badge/License-MIT-2ea44f.svg)](LICENSE)
 
   [日本語](README.ja.md)
 </div>
+
+Fork of [Sunwood-ai-labs/design-with-apple-hig](https://github.com/Sunwood-ai-labs/design-with-apple-hig), preserving its evidence-first architecture and MIT license. This fork adds version/freshness checks, separate policy evidence, platform validation probes, reusable review records, and tested source extraction.
 
 ## ✨ Overview
 
@@ -34,13 +36,19 @@ Many community HIG skills mix official requirements, old snapshots, personal heu
 
 ## 🚀 Install
 
-Clone the repository into your Codex skills directory:
+Clone the repository into your Codex skills directory. On macOS/Linux:
 
-```powershell
-git clone https://github.com/Sunwood-ai-labs/design-with-apple-hig.git "$env:USERPROFILE\.codex\skills\design-with-apple-hig"
+```bash
+git clone https://github.com/rioriost/design-with-apple-hig.git "${CODEX_HOME:-$HOME/.codex}/skills/design-with-apple-hig"
 ```
 
-Restart or refresh Codex so the skill list is reloaded.
+On Windows:
+
+```powershell
+git clone https://github.com/rioriost/design-with-apple-hig.git "$env:USERPROFILE\.codex\skills\design-with-apple-hig"
+```
+
+If a skill with this name is already installed, inspect that checkout before replacing it. The repository also works as a reference without installation.
 
 ## 💬 Use
 
@@ -71,10 +79,14 @@ SKILL.md
 references/
 ├── official-source-map.md   Apple primary-source routing
 ├── source-routing.md        authority and conflict resolution
+├── freshness.md             release channels, source dates and drift
+├── codex-workflows.md       design review versus implementation review
 ├── platform-routing.md      Apple-native, Web, and cross-platform boundaries
 ├── review-rubric.md         evidence-based severity and scoring
 ├── verification-loop.md     build, render, interaction, and re-test loop
-└── bibliography.md          audited sources and incorporation policy
+├── review-record-template.md source ledger, findings and validation results
+├── regression-scenarios.md  behavioral evaluation cases for maintainers
+└── bibliography.md          historical source audits and incorporation policy
 ```
 
 ## 🔎 Evidence model
@@ -83,8 +95,10 @@ Material recommendations are separated into these classes:
 
 | Evidence | Meaning |
 | --- | --- |
-| `APPLE` | Confirmed in current Apple primary guidance |
-| `FRAMEWORK` | Confirmed by current SDK or framework behavior |
+| `APPLE-HIG` | Current scoped Apple design guidance |
+| `APPLE-SDK` | Documented API contracts and availability |
+| `APPLE-POLICY` | App Review or program/distribution rules, with applicability |
+| `APPLE-RESOURCE` | Official design kit or asset guidance |
 | `ACCESSIBILITY` | Supported by an applicable accessibility standard or feature |
 | `OBSERVATION` | Visible in supplied code, screenshots, prototypes, or a running UI |
 | `AUDIT` | Reported by a static analyzer and still requiring contextual review |
@@ -92,19 +106,29 @@ Material recommendations are separated into these classes:
 
 ## ✅ Validate
 
-Run the repository checks locally:
+Python 3.10+ is required; the helper and tests use only the standard library. Run from the repository root:
 
-```powershell
-uv run scripts/validate_repository.py
+```bash
+python3 scripts/validate_repository.py
+python3 -m unittest discover -s tests -v
+python3 -m py_compile scripts/fetch_apple_hig.py scripts/validate_repository.py
 ```
 
 Read a current official HIG topic through Apple's DocC JSON fallback:
 
-```powershell
-uv run scripts/fetch_apple_hig.py materials --metadata-only
+```bash
+python3 scripts/fetch_apple_hig.py materials --metadata-only
 ```
 
-GitHub Actions runs the structural validator and Python compilation checks on every push and pull request.
+GitHub Actions runs structural/local-link validation, compilation, CLI smoke checks, and offline regression tests on Python 3.10, 3.12, and 3.13 for main pushes and pull requests. Tests cover extraction, scope boundaries, drift metadata, retrieval failures, and broken local references without network access. They do not establish Apple source freshness or agent behavior. Use [behavioral scenarios](references/regression-scenarios.md) for skill evaluation.
+
+## Live documentation and review evidence
+
+Bundled references are original routing/workflow guidance, not a HIG snapshot. Fetch live Apple pages for material design claims, exact numbers, wording, API availability, release channels and applicable App Review policy. Reuse a scoped source ledger within a task unless evidence changes; offline work must disclose freshness limits. See [freshness.md](references/freshness.md).
+
+The reader can compare `--metadata-only` JSON against a previous task-local file with `--compare-metadata PATH`. It records retrieval time, Apple alert metadata when present, a payload digest and extraction warnings. A changed digest requires inspection; an unchanged digest does not certify correctness, current OS coverage or complete extraction. Read actual content before citing a claim, and inspect the official page for media or complex tables.
+
+Use [Codex workflows](references/codex-workflows.md) to choose design or implementation review, and the [review record](references/review-record-template.md) for source ledgers, stable finding IDs, screenshots and explicit check outcomes. Build, rendered UI, automated accessibility audits, actual VoiceOver use, keyboard/focus and Reduce Motion are separate evidence. Unavailable device or accessibility checks remain visible gaps.
 
 ## 📚 Sources and provenance
 

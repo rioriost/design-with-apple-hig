@@ -15,6 +15,7 @@ Use this rubric for formal reviews and requested scores. A score summarizes veri
 | --- | --- | --- |
 | `APPLE-HIG` | Current design guidance | title, URL, retrieval date, platform/section, wording strength |
 | `APPLE-SDK` | API or implementation fact | documentation URL, SDK/OS availability when relevant |
+| `APPLE-POLICY` | Distribution or App Review rule | current URL, section, retrieval date, distribution/region applicability |
 | `APPLE-RESOURCE` | Official kit or asset rule | resource/version and license context |
 | `ACCESSIBILITY` | Standard, API, or assistive test | standard criterion or test configuration |
 | `OBSERVATION` | Visible/reproducible artifact fact | location, state, and reproduction condition |
@@ -73,10 +74,11 @@ Severity reflects impact and reach, not how emphatically a third-party rule is w
 
 Report:
 
+- `ID`: stable identifier retained through fix and retest
 - `Finding`: observable/reproducible issue and location/state
 - `Severity`: Critical, Major, Moderate, Minor
 - `Evidence`: one or more labels
-- `Source`: primary URL/test or audit rule; write `Heuristic` when appropriate
+- `Source`: primary URL/section, retrieval date, wording strength and conditions, or test/audit rule; write `Heuristic` when appropriate
 - `Impact`: concrete consequence
 - `Fix`: specific design/code change
 - `Verify`: device/window, OS, appearance, input, assistive technology, test, or screenshot proving the fix
@@ -86,3 +88,5 @@ Group audit results as `confirmed`, `contextual`, or `false positive`. Keep unve
 ## Comparison guardrails
 
 Hold viewport/window, OS, data, appearance, text size, and state constant for before/after comparison. Re-score only re-verified dimensions. Cite current primary sources beside authoritative claims and retain conditional language.
+
+Track fixes and coverage with [review-record-template.md](review-record-template.md). Keep `fixed-pending-verification` separate from `verified-fixed`; preserve pre-existing failures and record changed conditions in comparisons.

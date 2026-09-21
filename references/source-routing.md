@@ -10,9 +10,9 @@ For a normal task, retrieve:
 2. One to four current HIG pages for the exact components, patterns, inputs, or foundations involved.
 3. One current framework/API page when implementation behavior matters.
 4. One focused accessibility page or standard when access is affected.
-5. Apple Design updates, release notes, or current WWDC only when the question is new-OS, beta, API, Liquid Glass, or changed-component specific.
+5. Establish relevant OS release channels using [freshness.md](freshness.md); add Design updates or WWDC for new-OS, beta, Liquid Glass, or changed-component decisions.
 
-Expand only when evidence conflicts or the artifact spans multiple platforms. Record page title, URL, retrieval date, supported platforms, relevant section, and guidance strength.
+Expand only when evidence conflicts or the artifact spans multiple platforms. Record page title, URL, retrieval date, supported platforms, relevant section, and guidance strength. Use [review-record-template.md](review-record-template.md) for a reusable source ledger.
 
 ## Retrieve Apple HIG reliably
 
@@ -37,7 +37,11 @@ The script accepts only Apple HIG slugs or matching `developer.apple.com` HIG UR
 | Web accessibility conformance | Current W3C WCAG and Web platform docs | Apple mobile measurements |
 | Observed UI behavior | Reproducible runtime test | Static analyzer inference |
 
-Maintain Apple modal verbs. `Consider` is not a requirement. `Avoid` can have exceptions. `In general` is not universal. Copy exact numbers only with their scope.
+Label distribution claims `APPLE-POLICY`, documented API claims `APPLE-SDK`, and runtime measurements `OBSERVATION`. Accessibility evidence can cite HIG, SDK, a standard, or a runtime test; retain that underlying authority rather than letting the label erase it.
+
+Maintain Apple modal verbs. `Consider` is not a requirement. `Avoid` can have exceptions. `In general` is not universal. Copy exact numbers only with their scope. Preserve default versus minimum, visible size versus hit region, units, conditions and exceptions. “Must” is mandatory only within the cited source’s domain and applicability; project release gates and heuristics remain separately named.
+
+Split mixed claims: a HIG preference for a system control, SDK availability for that control, and an observed clipping bug need separate evidence. A newer WWDC demonstration does not silently override an API availability contract or a distribution policy. If two current sources disagree, record both scopes and the unresolved conflict.
 
 ## Route third-party specialists
 
