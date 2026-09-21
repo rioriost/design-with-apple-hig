@@ -1,6 +1,6 @@
 ---
 name: design-with-apple-hig
-description: Apply and verify current Apple Human Interface Guidelines for design, implementation, review, scoring, refactoring, and audit. Use for iOS, iPadOS, macOS, watchOS, tvOS, visionOS, SwiftUI, UIKit, AppKit, Liquid Glass, SF Symbols, Dynamic Type, VoiceOver, accessibility, screenshots, prototypes, or Apple-inspired Web and cross-platform interfaces. Retrieve current Apple primary guidance, preserve Apple wording strength and platform scope, route only necessary specialist skills, separate official requirements from SDK facts, standards, observations, audit-tool signals, and heuristics, and re-verify implemented changes.
+description: Design, implement, and review Apple-platform interfaces using current Human Interface Guidelines and evidence-backed validation. Use for iOS, iPadOS, macOS, watchOS, tvOS, visionOS, SwiftUI, UIKit, AppKit, or explicitly Apple-inspired cross-platform UI; includes accessibility, adaptation, and implementation review. Do not use for unrelated generic UI work or as an App Store submission workflow.
 ---
 
 # Apple HIG Design Skill
@@ -11,15 +11,15 @@ Direct Apple-platform design work from current primary evidence. Use third-party
 
 1. Classify the task as `explain`, `design`, `build`, `review`, `score`, `refactor`, or `audit`.
 2. Identify target platform and OS range, framework, artifact, input methods, requested depth, and testable states. Infer clear facts; ask only when the answer changes navigation, input, or implementation architecture.
-3. Read [source-routing.md](references/source-routing.md). Build the smallest evidence bundle that can decide the task.
+3. Read [source-routing.md](references/source-routing.md) and apply [freshness.md](references/freshness.md) to distinguish current public releases, prereleases, deployment targets, and tested runtimes. Build the smallest evidence bundle that can decide the task.
 4. Read the relevant section of [official-source-map.md](references/official-source-map.md). Retrieve current Apple pages for every material, exact, version-specific, or normative claim. Use `scripts/fetch_apple_hig.py` when the HTML page is JavaScript-only.
 5. Read only the applicable platform section in [platform-routing.md](references/platform-routing.md). Do not flatten platform differences.
 6. Form a concise design contract: purpose, hierarchy, navigation, primary action, input, density, adaptation, appearance, accessibility, motion, privacy, localization, and recovery.
-7. Design, implement, or review. Prefer system behavior and semantics over visual imitation.
+7. For design or implementation reviews, use the matching mode in [codex-workflows.md](references/codex-workflows.md). Design, implement, or review. Prefer system behavior and semantics over visual imitation.
 8. For formal review or scoring, read [review-rubric.md](references/review-rubric.md). Lead with observable task and safety issues.
-9. For code changes or runnable UI, execute [verification-loop.md](references/verification-loop.md). Re-test failed and high-severity paths after changes.
+9. For code changes or runnable UI, execute [verification-loop.md](references/verification-loop.md). Re-test failed and high-severity paths after changes. For substantial work, use [review-record-template.md](references/review-record-template.md) to track sources, stable finding IDs, and pass/fail/blocked/not-run/not-applicable checks.
 
-Read [bibliography.md](references/bibliography.md) only when updating this skill, evaluating a third-party source, explaining provenance, or auditing source quality.
+Use [regression-scenarios.md](references/regression-scenarios.md) when changing or evaluating this skill. Read [bibliography.md](references/bibliography.md) only when updating this skill, evaluating a third-party source, explaining provenance, or auditing source quality.
 
 ## Preserve source meaning
 
@@ -31,21 +31,22 @@ Keep Apple guidance at its original strength:
 - Treat the HIG as design guidance, SDK documentation as implementation fact, App Review Guidelines as distribution policy, and WCAG or another standard as a separate normative source.
 - When Apple gives a principle without a number, do not invent a grid, breakpoint, page count, timing, score, or threshold.
 
-If evidence conflicts, prefer the current platform-specific Apple page, then current SDK behavior, then accessibility-preserving system behavior. State unresolved conflicts and dates rather than silently choosing.
+Resolve conflicts within the claim’s domain: HIG for design guidance, SDK documentation for API contracts, and policy for distribution. An observed runtime result is evidence for that configuration, not a replacement API contract. Match platform, OS, component, and conditions before comparing sources; preserve unresolved conflicts and dates.
 
 ## Label material claims
 
 Use these labels in formal reviews and evidence ledgers:
 
 - `APPLE-HIG`: current Apple HIG or Apple Design guidance.
-- `APPLE-SDK`: current Apple framework documentation or observed platform behavior.
+- `APPLE-SDK`: documented Apple API requirements, availability, and contracts. Label observed runtime behavior separately as `OBSERVATION`.
+- `APPLE-POLICY`: current App Review Guidelines or Apple program/distribution rules; keep section and applicability separate from HIG guidance.
 - `APPLE-RESOURCE`: official design kit, template, symbol, or asset guidance.
 - `ACCESSIBILITY`: an applicable accessibility standard, API, or assistive-technology test.
 - `OBSERVATION`: visible or reproducible in the supplied artifact.
 - `AUDIT`: a static or automated tool signal requiring confirmation.
 - `HEURISTIC`: a reasoned recommendation that is not an Apple requirement.
 
-For `APPLE-*` and `ACCESSIBILITY` findings, retain the page URL and retrieval date. For exact values, retain the surrounding scope or section.
+For `APPLE-*` and `ACCESSIBILITY` findings, retain the page URL and retrieval date. For exact values, retain units, default/minimum distinctions, surrounding scope, exceptions, and section. Missing evidence is `unverified`, not an inferred requirement. Strength and severity are independent: a strong modal alone does not establish user impact.
 
 ## Route specialist skills narrowly
 
@@ -70,7 +71,7 @@ Do not load every specialist or a full HIG corpus. A normal bundle is one platfo
 
 ## Respect artifact limits
 
-- A screenshot can establish visible hierarchy, density, typography, color, targets, and one state. It cannot establish motion, focus or reading order, Dynamic Type, VoiceOver, or end-to-end behavior.
+- A screenshot can establish visible hierarchy, density, typography, color, apparent targets, and one state; physical hit-region sizes require scale and runtime evidence. It cannot establish motion, focus or reading order, Dynamic Type, VoiceOver, or end-to-end behavior.
 - Source code can establish implementation choices and reachable paths, but not final rendering or assistive-technology output without execution.
 - A build, static scan, simulator screenshot, or single device never establishes ship readiness by itself.
 - Score only verified dimensions and disclose the denominator. Any Critical finding makes the result `not ship-ready` regardless of arithmetic score.

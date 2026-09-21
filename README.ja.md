@@ -4,11 +4,13 @@
   <p><code>design-with-apple-hig</code></p>
   <p>Appleプラットフォームの設計・実装・レビュー・監査を、一次情報から進めるCodexスキルです。</p>
 
-  [![Validate](https://github.com/Sunwood-ai-labs/design-with-apple-hig/actions/workflows/validate.yml/badge.svg)](https://github.com/Sunwood-ai-labs/design-with-apple-hig/actions/workflows/validate.yml)
+  [![Validate](https://github.com/rioriost/design-with-apple-hig/actions/workflows/validate.yml/badge.svg)](https://github.com/rioriost/design-with-apple-hig/actions/workflows/validate.yml)
   [![License: MIT](https://img.shields.io/badge/License-MIT-2ea44f.svg)](LICENSE)
 
   [English](README.md)
 </div>
+
+[Sunwood-ai-labs/design-with-apple-hig](https://github.com/Sunwood-ai-labs/design-with-apple-hig) のforkです。一次情報を重視する設計とMITライセンスを維持し、鮮度・OS世代の確認、ポリシーの独立分類、プラットフォーム別検証、レビュー記録、取得処理の回帰テストを追加しています。
 
 ## ✨ 概要
 
@@ -34,13 +36,19 @@
 
 ## 🚀 インストール
 
-Codexのskillsディレクトリへcloneします。
+macOS/LinuxではCodexのskillsディレクトリへcloneします。
 
-```powershell
-git clone https://github.com/Sunwood-ai-labs/design-with-apple-hig.git "$env:USERPROFILE\.codex\skills\design-with-apple-hig"
+```bash
+git clone https://github.com/rioriost/design-with-apple-hig.git "${CODEX_HOME:-$HOME/.codex}/skills/design-with-apple-hig"
 ```
 
-Codexを再起動または更新し、スキル一覧を再読み込みしてください。
+Windowsの場合:
+
+```powershell
+git clone https://github.com/rioriost/design-with-apple-hig.git "$env:USERPROFILE\.codex\skills\design-with-apple-hig"
+```
+
+同名のスキルが既にある場合は、既存の作業内容を確認してから更新してください。インストールせず参照資料として利用することもできます。
 
 ## 💬 使い方
 
@@ -70,11 +78,15 @@ SKILL.md
 
 references/
 ├── official-source-map.md   Apple一次資料へのルーティング
-├── source-routing.md        権威順位と競合解決
+├── source-routing.md        根拠の分類と競合解決
+├── freshness.md             正式版・ベータ版、参照日、変更検出
+├── codex-workflows.md       設計レビューと実装レビューの使い分け
 ├── platform-routing.md      Apple-native、Web、cross-platformの境界
 ├── review-rubric.md         証拠ベースの重大度と採点
 ├── verification-loop.md     build、描画、操作、再テスト
-└── bibliography.md          精査した資料と採用方針
+├── review-record-template.md 出典、finding、検証結果の記録
+├── regression-scenarios.md  スキル自体の動作評価シナリオ
+└── bibliography.md          過去に精査した資料と採用方針
 ```
 
 ## 🔎 証拠モデル
@@ -83,8 +95,10 @@ references/
 
 | Evidence | 意味 |
 | --- | --- |
-| `APPLE` | 現在のApple一次資料で確認済み |
-| `FRAMEWORK` | 現行SDKまたはFrameworkの挙動で確認済み |
+| `APPLE-HIG` | 適用範囲を確認した現在のAppleデザイン指針 |
+| `APPLE-SDK` | 文書化されたAPI仕様と利用可能なOS |
+| `APPLE-POLICY` | 適用条件を確認したApp Review・配布ポリシー |
+| `APPLE-RESOURCE` | 公式デザインキットやアセットの指針 |
 | `ACCESSIBILITY` | 適用可能なアクセシビリティ標準または機能で裏付け済み |
 | `OBSERVATION` | コード、スクリーンショット、プロトタイプ、実動UIから観察可能 |
 | `AUDIT` | 静的解析の検出結果。文脈確認が必要 |
@@ -92,19 +106,29 @@ references/
 
 ## ✅ 検証
 
-ローカルでリポジトリ検証を実行します。
+Python 3.10以降が必要です。ヘルパーとテストは標準ライブラリのみを使います。リポジトリのルートで実行します。
 
-```powershell
-uv run scripts/validate_repository.py
+```bash
+python3 scripts/validate_repository.py
+python3 -m unittest discover -s tests -v
+python3 -m py_compile scripts/fetch_apple_hig.py scripts/validate_repository.py
 ```
 
 Apple公式DocC JSONから、現在のHIGトピックを確認できます。
 
-```powershell
-uv run scripts/fetch_apple_hig.py materials --metadata-only
+```bash
+python3 scripts/fetch_apple_hig.py materials --metadata-only
 ```
 
-GitHub Actionsでも、pushとpull requestごとに構造検証とPythonコンパイル検査を実行します。
+GitHub Actionsではmainへのpushとpull requestに対し、Python 3.10・3.12・3.13で構造・ローカルリンク・コンパイル・CLI・オフライン回帰テストを実行します。テストは抽出、適用範囲の保持、変更検出、取得失敗、リンク切れを対象とし、ネットワークを使いません。Apple資料の鮮度やエージェントの動作を保証するものではありません。スキルの評価には[動作シナリオ](references/regression-scenarios.md)を使用します。
+
+## ライブ資料と検証記録
+
+同梱資料は参照先と手順を示す独自文書です。HIG本文のスナップショットではありません。重要なデザイン判断、数値、表現の強さ、APIの利用可能性、OSの正式版・ベータ版、App ReviewポリシーはライブのApple一次資料で確認します。同一タスク内の出典記録は状況が変わらなければ再利用でき、オフライン時は鮮度の未確認を明示します。[鮮度確認の手順](references/freshness.md)を参照してください。
+
+取得ヘルパーの`--compare-metadata PATH`で、過去の`--metadata-only` JSONと比較できます。取得日時、Appleの更新情報、本文を含む応答全体のハッシュ、抽出上の注意点を記録します。ハッシュの変化は内容確認のきっかけであり、不変でも最新OSへの対応や完全な抽出を保証しません。主張の根拠には本文を読み、画像・動画・複雑な表は公式ページで確認します。
+
+[Codexのワークフロー](references/codex-workflows.md)で設計レビューと実装レビューを使い分け、[記録テンプレート](references/review-record-template.md)に出典、継続使用するfinding ID、スクリーンショット、検証結果を残します。ビルド、実際の描画、アクセシビリティ自動監査、VoiceOver実操作、キーボードとフォーカス、Reduce Motionは別々の証拠です。実機や支援技術で確認できなかった項目は未検証として残します。
 
 ## 📚 参考文献と出典管理
 

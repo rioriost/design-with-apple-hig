@@ -1,6 +1,6 @@
 # Official Apple source map
 
-Research baseline: 2026-08-01, Asia/Tokyo. This date records the audit, not a frozen truth. Retrieve current pages at task time.
+Inherited research baseline: 2026-08-01, Asia/Tokyo. Historical examples below are discovery hints, not currently verified claims. Retrieve current pages using [freshness.md](freshness.md); this map does not declare a latest OS generation.
 
 ## Contents
 
@@ -23,7 +23,9 @@ Research baseline: 2026-08-01, Asia/Tokyo. This date records the audit, not a fr
 | Detailed design principles | `https://developer.apple.com/design/human-interface-guidelines/design-principles` |
 | Current design resources and kits | `https://developer.apple.com/design/resources/` |
 | Current design sessions | `https://developer.apple.com/videos/design/` |
-| Current WWDC design guide | `https://developer.apple.com/wwdc26/guides/design/` |
+| WWDC discovery; choose the relevant year/session | `https://developer.apple.com/wwdc/` |
+| Public and prerelease OS/SDK announcements | `https://developer.apple.com/news/releases/` |
+| Public OS release cross-check | `https://support.apple.com/en-us/100100` |
 | Accessibility developer portal | `https://developer.apple.com/accessibility/` |
 | Apple framework documentation | `https://developer.apple.com/documentation/` |
 | App Review Guidelines | `https://developer.apple.com/app-store/review/guidelines/` |
@@ -68,7 +70,7 @@ Route by actual component:
 - `lists-and-tables`, `scroll-views`, `collections`
 - `search-fields`, `searching`
 
-Preserve platform sections. For example, the current Sidebars page advises avoiding a sidebar on iOS while offering adaptive sidebar/tab-bar patterns on iPadOS; a generic “sidebar is Apple-like” rule loses the decision.
+Preserve platform sections. For example, the Sidebars page at the research baseline advises avoiding a sidebar on iOS while offering adaptive sidebar/tab-bar patterns on iPadOS; a generic “sidebar is Apple-like” rule loses the decision.
 
 ## Controls and presentation
 
@@ -79,7 +81,7 @@ Use the component page plus its framework API:
 - `alerts`, `sheets`, `popovers`, `modality`
 - `progress-indicators`, `status`, `feedback`
 
-Do not detach measurements from context. The Buttons page describes a 44×44 pt hit region as a general rule (60×60 pt in visionOS), while accessibility and specialized control pages can provide different default/minimum or frequency-based guidance.
+Do not detach measurements from context. At the research baseline, the Buttons page described a 44×44 pt hit region as a general rule (60×60 pt in visionOS), while accessibility and specialized control pages can provide different default/minimum or frequency-based guidance.
 
 ## Patterns and state
 
@@ -90,7 +92,7 @@ Retrieve based on the flow:
 - `drag-and-drop`, `undo-and-redo`, `file-management`
 - `privacy` for permission timing and pre-alert constraints
 
-Keep the nuance visible. The current Onboarding page asks for a fast, optional experience but specifies no universal three-page limit. The current Privacy page prefers contextual requests, permits launch-time requests when required and obvious, and recommends a custom pre-alert only when extra detail is essential.
+Keep the nuance visible. At the research baseline, the Onboarding page asked for a fast, optional experience but specifies no universal three-page limit. The Privacy page at that baseline preferred contextual requests, permits launch-time requests when required and obvious, and recommends a custom pre-alert only when extra detail is essential.
 
 ## Inputs and spatial interaction
 
@@ -113,3 +115,5 @@ For a HIG slug `<slug>`, Apple publishes machine-readable content at:
 `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/<slug>.json`
 
 Use `scripts/fetch_apple_hig.py` to retrieve and render this source. Record metadata such as supported platforms and alert/change information when present. Never cache its output inside this skill as a replacement corpus.
+
+For implementation validation, start with [Performing accessibility testing for your app](https://developer.apple.com/documentation/accessibility/performing-accessibility-testing-for-your-app) and follow current tool/API links. Verify the availability of automated accessibility audits in the selected SDK and test destination rather than assuming uniform platform support.

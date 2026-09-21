@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 import sys
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +20,10 @@ REQUIRED_FILES = (
     "references/review-rubric.md",
     "references/source-routing.md",
     "references/verification-loop.md",
+    "references/freshness.md",
+    "references/codex-workflows.md",
+    "references/review-record-template.md",
+    "references/regression-scenarios.md",
     "scripts/fetch_apple_hig.py",
 )
 
@@ -50,11 +55,16 @@ def validate_frontmatter(skill_text: str) -> None:
         fail("Skill description must not be empty")
 
 
-def validate_links(skill_text: str) -> None:
-    local_links = re.findall(r"\]\((references/[^)]+|scripts/[^)]+)\)", skill_text)
-    for relative in local_links:
-        if not (ROOT / relative).is_file():
-            fail(f"Broken SKILL.md link: {relative}")
+def validate_links(markdown: str, source: Path, root: Path = ROOT) -> None:
+    # Fenced examples are not repository links. Validate targets, not remote URLs.
+    prose = re.sub(r"^```[^\n]*\n.*?^```[^\n]*$", "", markdown, flags=re.M | re.S)
+    for relative in re.findall(r"\]\(([^\s)]+)\)", prose):
+        parsed = urlsplit(relative.strip("<>"))
+        if parsed.scheme or parsed.netloc or not parsed.path:
+            continue
+        target = (source.parent / unquote(parsed.path)).resolve()
+        if not target.is_relative_to(root.resolve()) or not target.is_file():
+            fail(f"Broken local link in {source.relative_to(root)}: {relative}")
 
 
 def main() -> None:
@@ -64,7 +74,9 @@ def main() -> None:
 
     skill_text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
     validate_frontmatter(skill_text)
-    validate_links(skill_text)
+    for path in sorted(ROOT.rglob("*.md")):
+        if ".git" not in path.parts and ".venv" not in path.parts:
+            validate_links(path.read_text(encoding="utf-8"), path)
 
     legacy = "apply-" + "apple-hig"
     for path in ROOT.rglob("*"):
